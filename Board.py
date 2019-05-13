@@ -14,7 +14,7 @@ class Board:
         self.nCol = colNum
         self.boardMat = np.zeros((self.nRow, self.nCol))
 
-    def printBoared(self):
+    def printBoard(self):
         print(np.flip(self.boardMat, 0))
 
     def isEmptyPlace(self, col):

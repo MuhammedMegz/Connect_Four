@@ -5,7 +5,7 @@ from Player import *
 
 
 class ConnectFour:
-    connectFourBoard = Board(6, 7)
+    connectFourBoard = None
     player1 = None
     player2 = None
     anyWin = False
@@ -13,6 +13,7 @@ class ConnectFour:
     def __init__(self, player1Name, player2Name):
         self.player1 = Player(player1Name)
         self.player2 = Player(player2Name)
+        self.connectFourBoard = Board(6, 7)
 
     def printBoard(self):
         print(self.connectFourBoard.printBoared())
@@ -77,23 +78,32 @@ class ConnectFour:
                         boardMat[row - 3][col + 3] == playerMark:
                     return True
 
-
-
-
     def startGame(self):
 
+        playerTurn = 1
         while not self.anyWin:
 
+            if playerTurn == 1:
+                col = int(input("player 1 turn enter col number"))
+                self.connectFourBoard.placePiece(col, 1)
+                playerTurn = 2
+                if self.isWinMovement(1):
+                    print("player 1 won the game")
+                    self.anyWin = True
+                    break
 
 
 
-connect = ConnectFour("megz", "atta")
-connect.connectFourBoard.placePiece(1,1)
-connect.connectFourBoard.placePiece(2,2)
-connect.connectFourBoard.placePiece(1,1)
-connect.connectFourBoard.placePiece(2,2)
-connect.connectFourBoard.placePiece(1,1)
-connect.connectFourBoard.placePiece(2,2)
-connect.connectFourBoard.placePiece(1,1)
+            elif playerTurn == 2:
+                col = int(input("player 2 turn enter col number"))
+                self.connectFourBoard.placePiece(col, 2)
+                playerTurn = 1
+                if self.isWinMovement(2):
+                    print("player 2 won the game")
+                    self.anyWin = True
+                    break
 
-print(connect.isWinMovement(2))
+
+connect = ConnectFour("megz", "attar")
+
+connect.startGame()
