@@ -16,3 +16,17 @@ class Board:
 
     def printBoared(self):
         print(np.flip(self.boardMat, 0))
+
+    def isEmptyPlace(self, col):
+        return self.boardMat[self.nRow-1][col] == 0
+
+    def firstValidRow(self, col):
+        for eachRow in range(self.nRow):
+            if self.boardMat[eachRow][col] == 0:
+                return eachRow
+
+    def placePiece(self, col, playerMark):
+        if self.isEmptyPlace(col):
+            dropRow = self.firstValidRow(col)
+            self.boardMat[dropRow][col] = playerMark
+
