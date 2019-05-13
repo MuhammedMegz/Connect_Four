@@ -69,7 +69,7 @@ class ConnectFour:
                         boardMat[row + 3][col + 3] == playerMark:
                     return True
 
-        # -45 degree marls check
+        # -45 degree marks check
         for col in range(nCol - 3):
             for row in range(3, nRow):
                 if boardMat[row][col] == playerMark and \
