@@ -16,7 +16,7 @@ class ConnectFour:
         self.connectFourBoard = Board(6, 7)
 
     def printBoard(self):
-        print(self.connectFourBoard.printBoared())
+        print(self.connectFourBoard.printBoard())
 
     def getPlayer1Name(self):
         return self.player1.getPlayerName()
