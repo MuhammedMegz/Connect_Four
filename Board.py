@@ -25,8 +25,15 @@ class Board:
             if self.boardMat[eachRow][col] == 0:
                 return eachRow
 
+    
     def placePiece(self, col, playerMark):
         if self.isEmptyPlace(col):
             dropRow = self.firstValidRow(col)
             self.boardMat[dropRow][col] = playerMark
-
+            
+    def get_valid_locations(self):
+        valid_locations = []
+        for col in range(self.nCol):
+            if self.isEmptyPlace( col):
+                valid_locations.append(col)
+        return valid_locations
