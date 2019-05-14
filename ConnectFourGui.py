@@ -67,16 +67,16 @@ def playingLoop():
 
     playingCanvas.bind('<Button-1>', mousePressed)
 
-    temp = playingCanvas.find_withtag("0,0")
-    playingCanvas.itemconfig(temp, fill='red')
     playingCanvas.pack()
     playingWindow.mainloop()
 
 
 def mousePressed(event):
-    x = event.x
-    col = int(x/(WIDTH/NCOL))
-    addPiece(col, "green")
+    global turn
+    if turn == "player1":
+        x = event.x
+        col = int(x/(WIDTH/NCOL))
+        addPiece(col, "green")
 
 def addPiece(col, color):
     for i in range(NROWS):
@@ -84,6 +84,14 @@ def addPiece(col, color):
         if playingCanvas.itemcget(tag, "fill") == "white":
                 playingCanvas.itemconfig(tag, fill=color)
                 break
+    switchTurns()
+
+def switchTurns():
+    global turn
+    if turn == "player1":
+        turn = "compupter"
+    elif turn == "computer":
+        turn = "player1"
         
 
 
