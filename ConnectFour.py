@@ -2,6 +2,11 @@
 
 from Board import *
 from Player import *
+import math
+import random
+
+opponentMark=1
+AIMark=2
 
 
 class ConnectFour:
@@ -23,6 +28,8 @@ class ConnectFour:
 
     def getPlayer2Name(self):
         return self.player2.getPlayerName()
+    def copy(self):
+        return self
 
     def getPlayer1Score(self):
         return self.player2.getPlayerScore()
@@ -51,7 +58,7 @@ class ConnectFour:
                         boardMat[row][col + 3] == playerMark:
                     return True
 
-        # horizontal marks check
+        # horizontal  check
         for col in range(nCol):
             for row in range(nRow - 3):
                 if boardMat[row][col] == playerMark and \
@@ -60,7 +67,7 @@ class ConnectFour:
                         boardMat[row + 3][col] == playerMark:
                     return True
 
-        # 45 degree marks check
+        # 45 degree check
         for col in range(nCol - 3):
             for row in range(nRow - 3):
                 if boardMat[row][col] == playerMark and \
@@ -69,7 +76,7 @@ class ConnectFour:
                         boardMat[row + 3][col + 3] == playerMark:
                     return True
 
-        # -45 degree marks check
+        # -45 degree  check
         for col in range(nCol - 3):
             for row in range(3, nRow):
                 if boardMat[row][col] == playerMark and \
@@ -78,14 +85,115 @@ class ConnectFour:
                         boardMat[row - 3][col + 3] == playerMark:
                     return True
 
+    def evaluate_score(self,values, mark):
+        score = 0
+        opp_piece = opponentMark
+        if mark == opponentMark:
+            opp_piece = AIMark
+
+        if values.count(mark) == 4:
+            score += 100
+        elif values.count(mark) == 3 and values.count(0) == 1:
+            score += 5
+        elif values.count(mark) == 2 and values.count(0) == 2:
+            score += 2
+
+        if values.count(opp_piece) == 3 and values.count(0) == 1:
+            score -= 4
+
+        return score
+
+    def score(self, playerMark):
+        score = 0
+
+        ## Score center column
+        center_array = [int(i) for i in list(self.connectFourBoard.boardMat[:, 7//2])]
+        center_count = center_array.count(playerMark)
+        score += center_count * 3
+
+        ## Score Horizontal
+        for r in range(self.connectFourBoard.nRow):
+            row_array = [int(i) for i in list(self.connectFourBoard.boardMat[r,:])]
+            for c in range(self.connectFourBoard.nCol-3):
+                values = row_array[c:c+4]
+                score += self.evaluate_score(values, playerMark)
+
+        ## Score Vertical
+        for c in range(self.connectFourBoard.nCol):
+            col_array = [int(i) for i in list(self.connectFourBoard.boardMat[:,c])]
+            for r in range(self.connectFourBoard.nRow-3):
+                values = col_array[r:r+4]
+                score += self.evaluate_score(values, playerMark)
+
+        ## Score  diagonal
+        for r in range(self.connectFourBoard.nRow-3):
+            for c in range(self.connectFourBoard.nCol-3):
+                values = [self.connectFourBoard.boardMat[r+i][c+i] for i in range(4)]
+                score += self.evaluate_score(values, playerMark)
+
+        for r in range(self.connectFourBoard.nRow-3):
+            for c in range(self.connectFourBoard.nCol-3):
+                values = [self.connectFourBoard.boardMat[r+3-i][c+i] for i in range(4)]
+                score += self.evaluate_score(values, playerMark)
+
+        return score
+    def is_terminal_node(self):
+        return self.isWinMovement(opponentMark) or self.isWinMovement( AIMark) or len(self.connectFourBoard.get_valid_locations()) == 0
+
+    def minimax(self, depth, alpha, beta, maximizingPlayer):
+        valid_locations = self.connectFourBoard.get_valid_locations()
+        is_terminal = self.is_terminal_node()
+        if depth == 0 or is_terminal:
+            if is_terminal:
+                if self.isWinMovement( AIMark):
+                    return (None, 100000000000000)
+                elif self.isWinMovement( opponentMark):
+                    return (None, -10000000000000)
+                else: 
+                    return (None, 0)
+            else: # Depth is zero
+                return (None, self.score( AIMark))
+        if maximizingPlayer:
+            value = -math.inf
+            column = random.choice(valid_locations)
+            for col in valid_locations:
+
+                board_copy = self.connectFourBoard.boardMat.copy()
+                self.connectFourBoard.placePiece( col, AIMark)
+                new_score = self.minimax( depth-1, alpha, beta, False)[1]
+                self.connectFourBoard.boardMat=board_copy
+                if new_score > value :
+                    value = new_score
+                    column = col
+                alpha = max(alpha, value)
+                if alpha >= beta:
+                    break
+            return column, value
+
+        else: # Minimizing 
+            value = math.inf
+            column = random.choice(valid_locations)
+            for col in valid_locations:
+                board_copy = self.connectFourBoard.boardMat.copy()
+                self.connectFourBoard.placePiece(  col, opponentMark)
+                new_score = self.minimax( depth-1, alpha, beta, True)[1]
+                self.connectFourBoard.boardMat=board_copy
+                if new_score < value:
+                    value = new_score
+                    column = col
+                beta = min(beta, value)
+                if alpha >= beta:
+                    break
+            return column, value
+
     def startGame(self):
 
         playerTurn = 1
         while not self.anyWin:
-
             if playerTurn == 1:
                 col = int(input("player 1 turn enter col number"))
                 self.connectFourBoard.placePiece(col, 1)
+                self.printBoard()
                 playerTurn = 2
                 if self.isWinMovement(1):
                     print("player 1 won the game")
@@ -95,8 +203,9 @@ class ConnectFour:
 
 
             elif playerTurn == 2:
-                col = int(input("player 2 turn enter col number"))
+                col, minimax_score = self.minimax( 5, -math.inf, math.inf, True)
                 self.connectFourBoard.placePiece(col, 2)
+                self.printBoard()
                 playerTurn = 1
                 if self.isWinMovement(2):
                     print("player 2 won the game")
