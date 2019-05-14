@@ -43,7 +43,7 @@ class ConnectFour:
         boardMat = self.connectFourBoard.boardMat
 
         # vertical marks check
-        for col in range(nCol - 1):
+        for col in range(nCol - 3):
             for row in range(nRow):
                 if boardMat[row][col] == playerMark and \
                         boardMat[row][col + 1] == playerMark and \
