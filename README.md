@@ -71,6 +71,8 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 ## GUI
 
 ![alt text](https://github.com/MuhammedMegz/Connect_Four/blob/master/1sc.png)
+![alt text](https://github.com/MuhammedMegz/Connect_Four/blob/master/2sc.png)
+![alt text](https://github.com/MuhammedMegz/Connect_Four/blob/master/3sc.png)
 
 ## Work Split
 
