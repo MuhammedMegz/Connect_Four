@@ -74,7 +74,9 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 ![alt text](/screenshots/3sc.png)
 
 
-  
+## Extra Bonus features:
+
+   - We made a mode where the Computer can play against itself without any human intervention.
 
   
   
