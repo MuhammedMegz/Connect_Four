@@ -1,5 +1,10 @@
 # Connect Four Computer Game with artificial intelligence and GUI
 
+   
+     
+     
+   
+
 ## Outlines:
 * [Connect Four Game](#Connect-Four-Game)
 * [Connect Four with AI](#Connect-Four-with-AI)
@@ -8,27 +13,57 @@
 
 ## Connect Four Game:
 
-   Mainly it built with three classes Player, Board, and Connect Four, Player class object carry the player name and score,
-  it also contain setters and getters for the two values(name, score).
-  
-  Board class is a general class for any board based game, to initiate it you just need to give it the width and height of the  board, also it validate if the place that the player want to place his piece or mark empty and get the valid row for placing the mark or piece, these two methods used to form the put the player mark method by validating the place is empty and get the first valid row to place this mark belong to current player
-  
-  
-  ```
+  This game was built in python and AI as a player against the user depending on ALPHA-BETA pruning, The design pattern used is MVC (Model, View, and controller), the Model consists of main three classes, First one is the "Player.py" which have two main propreties (Name, Score), Second class is "Board.py" it is a general class for any board game.
+   
+   Board class simply create in it's constructor a board with zero places in it, the width and height of the board determined in the constructor of the class in our case was 6x7 board for connect four, The main metods in this class are 3,
+one to check this place is empty or not to validate the player movement, second one to get the final valid row to place the player mark (it was more specified for connect four game), Third and last one use the two previous methods to place the use mark if he/her marked valid place and in the row determined by the second method.
+
+```
   def placePiece(self, col, playerMark):
         if self.isEmptyPlace(col):
             dropRow = self.firstValidRow(col)
             self.boardMat[dropRow][col] = playerMark
-  ```
-  
-  ConnectFour class is the more specified class for connect four game play, it has two player instances and a board instance with width of 7 and height of 6, and the most important and specified thing is checking if the movement the payer done is a win one or not, it is done by checking for four side marks of this player next to each other by vertical, horizontal, 45 degree line or -45 degree line.
-  
- ```
+```
+
+   
+   Third and last class is the "connectFour.py" which take two instances of Player class (in case of two normal players), and one instance of Board class with dimensions of 6X7 for connect Four Game, The only logic is in this class one method that check winning state after every player movement or replacement of coin it check the winning states verticall, horizontaly, 45 degree line, and -45 degree line
+   
+    ```
      def isWinMovement(self, playerMark):
           # vertical marks check
           # horizontal marks check
           # 45 degree marks check
           # -45 degree marks check
- ```
+     
+     ```
+     
+ ## Connect Four with AI
+ 
+   This part developed using ALPHA-BETA pruning after every placement it looks in the four directions if it have 3 serial marks it gives it high score, if 2 it gives it lower score, if 1 it gives it the lowest score to play, Also if it have 4 serial placements of the opponent it gives score by -ve sign.
+   
+   Here is the sudo code to summarize the idea
+  
+```
+function alphabeta(node, depth, α, β, maximizingPlayer) is
+    if depth = 0 or node is a terminal node then
+        return the heuristic value of node
+    if maximizingPlayer then
+        value := −∞
+        for each child of node do
+            value := max(value, alphabeta(child, depth − 1, α, β, FALSE))
+            α := max(α, value)
+            if α ≥ β then
+                break (* β cut-off *)
+        return value
+    else
+        value := +∞
+        for each child of node do
+            value := min(value, alphabeta(child, depth − 1, α, β, TRUE))
+            β := min(β, value)
+            if α ≥ β then
+                break (* α cut-off *)
+        return value
+
+```
   
   
