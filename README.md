@@ -9,7 +9,6 @@
 * [Connect Four Game](#Connect-Four-Game)
 * [Connect Four with AI](#Connect-Four-with-AI)
 * [GUI](#GUI)
-* [Work Split](#Work-Split)
 
 
 ## Connect Four Game:
@@ -74,15 +73,7 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 ![alt text](https://github.com/MuhammedMegz/Connect_Four/blob/master/2sc.png)
 ![alt text](https://github.com/MuhammedMegz/Connect_Four/blob/master/3sc.png)
 
-## Work Split
 
-Name | Role 
---- | --- 
-Muhammed Magdy Taha | Build the three classes Player, Board, Connect Four 
-Muhammed Ashraf Abdelrahman Elattar | Build the GUI and integration of classes with AI
-Muhammed Ahmed Fouad | Build the AI algorithm following ALPH-BETA algoritm
-  
-  
   
 
   
