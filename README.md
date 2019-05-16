@@ -68,6 +68,10 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 ```
 
 
+## GUI
+
+![alt text](https://github.com/MuhammedMegz/Connect_Four/blob/master/1sc.png)
+
 ## Work Split
 
 Name | Role 
