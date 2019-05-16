@@ -73,6 +73,8 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
 Name | Role 
 --- | --- 
 Muhammed Magdy Taha | Build the three classes Player, Board, Connect Four 
+Muhammed Ashraf Abdelrahman Elattar | Build the GUI and integration of classes with AI
+Muhammed Ahmed Fouad | Build the AI algorithm following ALPH-BETA algoritm
   
   
   
