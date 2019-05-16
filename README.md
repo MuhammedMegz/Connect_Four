@@ -9,6 +9,7 @@
 * [Connect Four Game](#Connect-Four-Game)
 * [Connect Four with AI](#Connect-Four-with-AI)
 * [GUI](#GUI)
+* [Work Split](#Work-Split)
 
 
 ## Connect Four Game:
@@ -65,5 +66,17 @@ function alphabeta(node, depth, α, β, maximizingPlayer) is
         return value
 
 ```
+
+
+## Work Split
+
+Name | Role 
+--- | --- 
+Muhammed Magdy Taha | Build the three classes Player, Board, Connect Four 
+  
+  
+  
+
+  
   
   
