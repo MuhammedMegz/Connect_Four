@@ -8,7 +8,6 @@ import random
 opponentMark=1
 AIMark=2
 
-
 class ConnectFour:
     connectFourBoard = None
     player1 = None
@@ -137,6 +136,7 @@ class ConnectFour:
                 score += self.evaluate_score(values, playerMark)
 
         return score
+		
     def is_terminal_node(self):
         return self.isWinMovement(opponentMark) or self.isWinMovement( AIMark) or len(self.connectFourBoard.get_valid_locations()) == 0
 
@@ -185,34 +185,3 @@ class ConnectFour:
                 if alpha >= beta:
                     break
             return column, value
-
-    def startGame(self):
-
-        playerTurn = 1
-        while not self.anyWin:
-            if playerTurn == 1:
-                col = int(input("player 1 turn enter col number"))
-                self.connectFourBoard.placePiece(col, 1)
-                self.printBoard()
-                playerTurn = 2
-                if self.isWinMovement(1):
-                    print("player 1 won the game")
-                    self.anyWin = True
-                    break
-
-
-
-            elif playerTurn == 2:
-                col, minimax_score = self.minimax( 5, -math.inf, math.inf, True)
-                self.connectFourBoard.placePiece(col, 2)
-                self.printBoard()
-                playerTurn = 1
-                if self.isWinMovement(2):
-                    print("player 2 won the game")
-                    self.anyWin = True
-                    break
-
-
-connect = ConnectFour("megz", "attar")
-
-connect.startGame()
